@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../utils/LinearInterpolatedFunction.hpp"
+#include "../utils/Function/Function.hpp"
 
 class GlobalScope {
 private:
@@ -11,8 +11,8 @@ public:
     static GlobalScope& getInstance();
 
 private:
-    LinearInterpolatedFunction *mach;
+    Function<double, double> *soundSpeed;
 public:
-    LinearInterpolatedFunction& getMachCalculator();
+    Function<double, double>& getSoundSpeedEvaluator();
     ~GlobalScope();
 };

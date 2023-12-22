@@ -6,9 +6,7 @@
 
 
 int main() {
-    Vector test(3);
-    test[2] = 54;
-
+    // Interpolation test
     std::vector<double> x = {2, 5, 8, 9, 12, 15, 20, 22, 25};
     std::vector<double> y = {3, -1, 6, 8, 3, 6, 13, 0, 3};
 

@@ -1,7 +1,7 @@
 #include "GlobalScope.hpp"
 
 GlobalScope::GlobalScope() 
-    : mach(nullptr) 
+    : soundSpeed(nullptr) 
 {
 
 }
@@ -12,16 +12,16 @@ GlobalScope& GlobalScope::getInstance()
     return instance;
 }
 
-LinearInterpolatedFunction &GlobalScope::getMachCalculator()
+Function<double, double> &GlobalScope::getSoundSpeedEvaluator()
 {
-    if (mach == nullptr) {
-        // create mach
+    if (soundSpeed == nullptr) {
+        // create soundSpeed
     }
 
-    return *mach;
+    return *soundSpeed;
 }
 
 GlobalScope::~GlobalScope()
 {
-    delete mach;
+    delete soundSpeed;
 }
