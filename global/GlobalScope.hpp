@@ -9,10 +9,10 @@ public:
     GlobalScope(GlobalScope const&)    = delete;
     void operator=(GlobalScope const&) = delete;
     static GlobalScope& getInstance();
+    ~GlobalScope();
 
 private:
     Function<double, double> *soundSpeed;
 public:
     Function<double, double>& getSoundSpeedEvaluator();
-    ~GlobalScope();
 };

@@ -1,7 +1,7 @@
 #include <iostream>
 #include "utils/Vector.hpp"
-#include "utils/Function/LinearInterpolatedFunction.hpp"
-#include "utils/Function/CubicSplinesInterpolation.hpp"
+#include "utils/function/interpolation/LinearInterpolatedFunction.hpp"
+#include "utils/function/interpolation/CubicSplinesInterpolation.hpp"
 #include <vector>
 
 
