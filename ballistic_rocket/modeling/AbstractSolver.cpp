@@ -18,7 +18,7 @@ Vector AbstractSolver::solve(double time)
     } else {
         state = states[states.size() - 1];
         for(int _ = states.size() - 1; _ < stepsInTime; _++) {
-            methodStep(state, step);
+            methodStep(state, step, _ * step);
             states.push_back(state);
         }
     }
@@ -28,7 +28,7 @@ Vector AbstractSolver::solve(double time)
     double timeDiff = time - wholePart;
 
     if (timeDiff != 0) {
-        methodStep(state, timeDiff);
+        methodStep(state, timeDiff, time);
     }
 
     return state;
