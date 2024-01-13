@@ -6,7 +6,7 @@ FILENAMES = {
     'power': 'power.txt',
     'pitch_angle': 'pitch_angle.txt'
 }
-for f in FILENAMES: FILENAMES[f] = 'datafiles/' + FILENAMES[f]
+for f in FILENAMES: FILENAMES[f] = 'datafiles/timetable/' + FILENAMES[f]
 
 srcfile = open(r"datafiles\table_t_m_p_tet_123-0.txt", 'r')
 
