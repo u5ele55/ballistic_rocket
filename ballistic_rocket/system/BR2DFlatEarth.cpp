@@ -3,9 +3,8 @@
 
 #include <cmath>
 
-BR2DFlatEarth::BR2DFlatEarth(double height, double x, double y, double vx, double vy, double activeTime)
-    : startHeight(height),
-    activeTime(activeTime),
+BR2DFlatEarth::BR2DFlatEarth(Parameters *params, double x, double y, double vx, double vy)
+    : params(params),
     initialState({x, y, vx, vy})
 {
     auto &scope = GlobalScope::getInstance();
@@ -23,6 +22,15 @@ void BR2DFlatEarth::f(Vector &state, double time) const
     state[0] = vx;
     state[1] = vy;
 
+    // Passive arc
+    if (time > params->stageEndtime.third) {
+        // TODO: just drag and gravitational forces
+        state[2] = 0;
+        state[3] = 0;
+        return;
+    }    
+
+    // TODO: Change 9.81 to G*Me*<component> / r**3 
     double P = 9.81 * (*power)(time);
     double m = (*mass)(time);
     double theta = (*pitchAngle)(time) * M_PI / 180;

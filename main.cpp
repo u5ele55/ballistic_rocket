@@ -1,13 +1,17 @@
 #include <iostream>
+#include <vector>
+
 #include "utils/Vector.hpp"
 #include "ballistic_rocket/modeling/RK4Solver.hpp"
 #include "ballistic_rocket/system/BR2DFlatEarth.hpp"
 #include "global/GlobalScope.hpp"
-#include <vector>
-#include <fstream>
+#include "utils/file_input/ParametersInputter.hpp"
+#include "utils/file_input/filenames.hpp"
 
 int main() {
-    BR2DFlatEarth *model = new BR2DFlatEarth(100, 0, 0, 0, 8, 175);
+    ParametersInputter paramsCreator(FILENAMES.at("parameters"));
+    Parameters * params = paramsCreator.create();
+    BR2DFlatEarth *model = new BR2DFlatEarth(params, 0, 0, 0, params->setup.velocity);
     RK4Solver solver(model);
 
     double step = 2;
@@ -20,6 +24,7 @@ int main() {
     file.close();
 
     delete model;
+    delete params;
 
     return 0;
 }

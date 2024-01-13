@@ -1,5 +1,6 @@
 #include "GlobalScope.hpp"
 #include "../utils/function/physics/AirDensityExponentialModel.hpp"
+#include "../utils/file_input/filenames.hpp"
 
 GlobalScope::GlobalScope() 
     : soundSpeed(nullptr),
@@ -19,6 +20,7 @@ Function<double, double> &GlobalScope::getSoundSpeedEvaluator()
 {
     if (soundSpeed == nullptr) {
         // create soundSpeed
+        
     }
 
     return *soundSpeed;
@@ -63,4 +65,8 @@ Function<double, double> &GlobalScope::getAirDensityEvaluator()
 GlobalScope::~GlobalScope()
 {
     delete soundSpeed;
+    delete airDensity;
+    delete pitchAngle;
+    delete power;
+    delete mass;
 }

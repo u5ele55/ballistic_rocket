@@ -3,14 +3,6 @@
 #include "../utils/Function/Function.hpp"
 #include "FunctionCreator.hpp"
 
-#include <map>
-
-const std::map<std::string, std::string> FILENAMES = {
-    {"mass", "../datafiles/mass.txt"},
-    {"power", "../datafiles/power.txt"},
-    {"pitch_angle", "../datafiles/pitch_angle.txt"}
-};
-
 class GlobalScope {
 private:
     GlobalScope();
