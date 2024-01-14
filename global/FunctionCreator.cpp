@@ -46,3 +46,34 @@ Function<double, double> *FunctionCreator::createCatmullRomSplineInterpolator(co
 
     return fun;
 }
+
+ConditionalLinearInterpolation *FunctionCreator::createConditionalLinearInterpolator(const std::string &filename)
+{
+    std::ifstream file(filename);
+
+    int M;
+    file >> M;
+
+    std::vector<double> conds(M);
+    for(int i = 0; i < M; i ++) {
+        file >> conds[i];
+    }
+    
+    int N;
+    file >> N;
+
+    std::vector<double> x(N);
+    for(int i = 0; i < N; i ++) {
+        file >> x[i];
+    }
+    std::vector<std::vector<double>> y(M, std::vector<double>(N));
+    for (int j = 0; j < N; j ++) {
+        for(int i = 0; i < M; i ++)
+            file >> y[i][j];
+    }
+    file.close();
+
+    ConditionalLinearInterpolation *fun = new ConditionalLinearInterpolation(conds, x, y);
+
+    return fun;
+}

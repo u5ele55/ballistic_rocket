@@ -3,6 +3,7 @@
 #include "../utils/Function/Function.hpp"
 #include <string>
 #include <vector>
+#include "../utils/function/interpolation/ConditionalLinearInterpolation.hpp"
 
 class FunctionCreator
 {
@@ -12,4 +13,5 @@ public:
     Function<double, double> *createLinearInterpolator(const std::string& filename);
     Function<double, double> *createCubicSplineInterpolator(const std::string& filename);
     Function<double, double> *createCatmullRomSplineInterpolator(const std::string& filename);
+    ConditionalLinearInterpolation *createConditionalLinearInterpolator(const std::string& filename);
 };
