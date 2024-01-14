@@ -7,7 +7,10 @@ GlobalScope::GlobalScope()
     power(nullptr),
     airDensity(nullptr),
     mass(nullptr),
-    pitchAngle(nullptr)
+    pitchAngle(nullptr),
+    dragCoef1(nullptr),
+    dragCoef2(nullptr),
+    dragCoefW(nullptr)
 {}
 
 GlobalScope& GlobalScope::getInstance()
@@ -60,6 +63,25 @@ Function<double, double> &GlobalScope::getAirDensityEvaluator()
     }
 
     return *airDensity;
+}
+
+Function<double, Function<double, double> &> &GlobalScope::getDragCoef1Evaluator()
+{
+    if (dragCoef1 == nullptr) {
+        dragCoef1 = creator.createConditionalLinearInterpolator(FILENAMES.at("Cx_1"));
+    }
+
+    return *dragCoef1;
+}
+
+Function<double, Function<double, double> &> &GlobalScope::getDragCoef2Evaluator()
+{
+    // TODO: insert return statement here
+}
+
+Function<double, double> &GlobalScope::getDragCoefWarheadEvaluator()
+{
+    // TODO: insert return statement here
 }
 
 GlobalScope::~GlobalScope()
