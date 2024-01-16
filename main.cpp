@@ -8,14 +8,17 @@
 #include "utils/file_input/ParametersInputter.hpp"
 #include "utils/file_input/filenames.hpp"
 
+#include "utils/Function/physics/AtmosphereParameters.hpp"
+
 int main() {
     FunctionCreator creator;
-   
 
-    GlobalScope &scope = GlobalScope::getInstance();
-    auto &coef = scope.getDragCoef1Evaluator();
-    
-    std::cout << (coef(3e4))(1.6);
+    StandartAtmosphereParameters atm;
+    double h = 70000;
+    auto p = atm(h);
+
+    std::cout << "rho: " << p.density << "\np: " << p.pressure << "\ns: " << p.soundSpeed << "\nT: " << p.temperature << '\n';
+
     exit(0);
 
     ParametersInputter paramsCreator(FILENAMES.at("parameters"));
