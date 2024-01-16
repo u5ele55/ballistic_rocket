@@ -1,5 +1,5 @@
 #include "GlobalScope.hpp"
-#include "../utils/function/physics/AirDensityExponentialModel.hpp"
+#include "../utils/Function/physics/AirDensityExponentialModel.hpp"
 #include "../utils/file_input/filenames.hpp"
 
 GlobalScope::GlobalScope() 
@@ -64,11 +64,12 @@ Function<double, double> &GlobalScope::getAirDensityEvaluator()
 
     return *airDensity;
 }
-
+#include <iostream>
 Function<double, Function<double, double> &> &GlobalScope::getDragCoef1Evaluator()
 {
     if (dragCoef1 == nullptr) {
-        dragCoef1 = creator.createConditionalLinearInterpolator(FILENAMES.at("Cx_1"));
+        dragCoef1 = reinterpret_cast<Function<double, Function<double, double>&>*>(
+            creator.createConditionalLinearInterpolator(FILENAMES.at("Cx_1")));
     }
 
     return *dragCoef1;
@@ -76,12 +77,21 @@ Function<double, Function<double, double> &> &GlobalScope::getDragCoef1Evaluator
 
 Function<double, Function<double, double> &> &GlobalScope::getDragCoef2Evaluator()
 {
-    // TODO: insert return statement here
+    if (dragCoef2 == nullptr) {
+        dragCoef2 = reinterpret_cast<Function<double, Function<double, double>&>*>(
+            creator.createConditionalLinearInterpolator(FILENAMES.at("Cx_2")));
+    }
+
+    return *dragCoef2;
 }
 
 Function<double, double> &GlobalScope::getDragCoefWarheadEvaluator()
 {
-    // TODO: insert return statement here
+    if (dragCoefW == nullptr) {
+        dragCoefW = creator.createLinearInterpolator(FILENAMES.at("Cx_warhead"));
+    }
+
+    return *dragCoefW;
 }
 
 GlobalScope::~GlobalScope()
@@ -91,4 +101,8 @@ GlobalScope::~GlobalScope()
     delete pitchAngle;
     delete power;
     delete mass;
+
+    delete dragCoef1;
+    delete dragCoef2;
+    delete dragCoefW;
 }

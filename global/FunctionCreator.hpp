@@ -1,9 +1,9 @@
-#pragma once 
+#pragma once
 
 #include "../utils/Function/Function.hpp"
 #include <string>
 #include <vector>
-#include "../utils/function/interpolation/ConditionalLinearInterpolation.hpp"
+#include "../utils/Function/interpolation/ConditionalLinearInterpolation.hpp"
 
 class FunctionCreator
 {

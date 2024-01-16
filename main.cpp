@@ -10,12 +10,12 @@
 
 int main() {
     FunctionCreator creator;
-    ConditionalLinearInterpolation *confun = creator.createConditionalLinearInterpolator(FILENAMES.at("Cx_1"));
-    std::cout << "created\n";
-    auto &fun = (*confun)(50000);
-    std::cout << "conds\n";
-    std::cout << fun(3.95);
+   
 
+    GlobalScope &scope = GlobalScope::getInstance();
+    auto &coef = scope.getDragCoef1Evaluator();
+    
+    std::cout << (coef(3e4))(1.6);
     exit(0);
 
     ParametersInputter paramsCreator(FILENAMES.at("parameters"));

@@ -1,7 +1,7 @@
 #pragma once
 #include "ISystem.hpp"
 #include "Parameters.hpp"
-#include "../../utils/function/Function.hpp"
+#include "../../utils/Function/Function.hpp"
 
 class BR2DFlatEarth : public ISystem
 {

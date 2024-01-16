@@ -1,7 +1,7 @@
 #include "FunctionCreator.hpp"
 
-#include "../utils/function/interpolation/LinearInterpolatedFunction.hpp"
-#include "../utils/function/interpolation/CubicSplinesInterpolation.hpp"
+#include "../utils/Function/interpolation/LinearInterpolatedFunction.hpp"
+#include "../utils/Function/interpolation/CubicSplinesInterpolation.hpp"
 
 #include <fstream>
 
