@@ -11,15 +11,6 @@
 #include "utils/Function/physics/AtmosphereParameters.hpp"
 
 int main() {
-    FunctionCreator creator;
-
-    StandartAtmosphereParameters atm;
-    double h = 70000;
-    auto p = atm(h);
-
-    std::cout << "rho: " << p.density << "\np: " << p.pressure << "\ns: " << p.soundSpeed << "\nT: " << p.temperature << '\n';
-
-    exit(0);
 
     ParametersInputter paramsCreator(FILENAMES.at("parameters"));
     Parameters * params = paramsCreator.create();
@@ -29,9 +20,10 @@ int main() {
     double step = 2;
     std::ofstream file("trajectory.txt");
 
-    for (int i = 0; i < 175.001; i += step) {
+    for (int i = 0; i < 905.001; i += step) {
         const auto &state = solver.solve(i);
         file << i << ' ' << state[0] << ' ' << state[1] << '\n';
+        std::cout << "ok " << i << '\n';
     }
     file.close();
 

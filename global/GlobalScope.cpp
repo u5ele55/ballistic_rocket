@@ -3,9 +3,8 @@
 #include "../utils/file_input/filenames.hpp"
 
 GlobalScope::GlobalScope() 
-    : soundSpeed(nullptr),
-    power(nullptr),
-    airDensity(nullptr),
+    : power(nullptr),
+    atmosphere(nullptr),
     mass(nullptr),
     pitchAngle(nullptr),
     dragCoef1(nullptr),
@@ -19,14 +18,13 @@ GlobalScope& GlobalScope::getInstance()
     return instance;
 }
 
-Function<double, double> &GlobalScope::getSoundSpeedEvaluator()
+Function<double, AtmosphereParameters> &GlobalScope::getAtmosphereParamsEvaluator()
 {
-    if (soundSpeed == nullptr) {
-        // create soundSpeed
-        
+    if (atmosphere == nullptr) {
+        atmosphere = new StandartAtmosphereParameters;
     }
 
-    return *soundSpeed;
+    return *atmosphere;
 }
 
 Function<double, double> &GlobalScope::getPowerEvaluator()
@@ -56,14 +54,6 @@ Function<double, double> &GlobalScope::getPitchAngleEvaluator()
     return *pitchAngle;
 }
 
-Function<double, double> &GlobalScope::getAirDensityEvaluator()
-{
-    if (airDensity == nullptr) {
-        airDensity = new AirDensityExponentialModel;
-    }
-
-    return *airDensity;
-}
 #include <iostream>
 Function<double, Function<double, double> &> &GlobalScope::getDragCoef1Evaluator()
 {
@@ -96,8 +86,7 @@ Function<double, double> &GlobalScope::getDragCoefWarheadEvaluator()
 
 GlobalScope::~GlobalScope()
 {
-    delete soundSpeed;
-    delete airDensity;
+    delete atmosphere;
     delete pitchAngle;
     delete power;
     delete mass;
