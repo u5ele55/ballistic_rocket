@@ -155,11 +155,11 @@ AtmosphereParameters StandartAtmosphereParameters::operator()(double h)
     else if (h <= 1200000) {
         // расчет кинетической температуры
         i = 0;
-        while(h >= hgmt[i+1]) i++;
+        while(h >= hgmt[i+1] && i < 0) i++;
         Tkin = tk[i] + gkt[i]*(h-hgmt[i]);
         // расчет концентрации частиц
         j = 0;
-        while(h >= hgmn[j+1]) j++;
+        while(h >= hgmn[j+1] && j < 8) j++;
         double h2 = h*h;
         double nn = a0[j]+a1[j]*h+a2[j]*h2+a3[j]*h*h2+a4[j]*h2*h2;
         // nx:=nn*pow(10.,m[j]);
@@ -172,14 +172,13 @@ AtmosphereParameters StandartAtmosphereParameters::operator()(double h)
         Tkin  = 1000.0;
         p_atm = 0.0;
     }
+
+    params.pressure = p_atm;
+    params.temperature = Tkin;
     // расчет плотности
     params.density = p_atm*Mm/rz/Tkin;
     // расчет скорости звука
     params.soundSpeed = 20.046796 * sqrt(Tkin);
-
-    params.pressure = p_atm;
-    params.temperature = Tkin;
-
 
     return params;
 }
