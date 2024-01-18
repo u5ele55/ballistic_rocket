@@ -183,6 +183,11 @@ bool Vector::operator==(const Vector &other) const
     return true;
 }
 
+bool Vector::operator!=(const Vector &other) const
+{
+    return !(*this == other);
+}
+
 bool Vector::operator<(const Vector &other) const {
     if (other.n != n) {
         return other.n < n;

@@ -11,20 +11,24 @@
 #include "utils/Function/physics/AtmosphereParameters.hpp"
 
 int main() {
-
     ParametersInputter paramsCreator(FILENAMES.at("parameters"));
     Parameters * params = paramsCreator.create();
     BR2DFlatEarth *model = new BR2DFlatEarth(params, 0, params->setup.height, 0, params->setup.velocity);
     RK4Solver solver(model);
 
-    double step = 2;
+    double step = 2, time = step;
     std::ofstream file("trajectory.txt");
-
-    for (int i = 0; i < 905.001; i += step) {
-        const auto &state = solver.solve(i);
-        file << i << ' ' << state[0] << ' ' << state[1] << '\n';
-        std::cout << "ok " << i << '\n';
+    auto state = solver.solve(0);
+    auto lastState = Vector{};
+    while (state[1] > 0 && step > 0.001) {
+        state = solver.solve(time);
+        if (state[1] > 0) {
+            file << time << ' ' << state[0] << ' ' << state[1] << '\n';
+        }
+        time += step;
     }
+    // todo: bin search for missile fall time 
+
     file.close();
 
     delete model;

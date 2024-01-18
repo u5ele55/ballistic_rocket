@@ -30,6 +30,10 @@ void BR2DFlatEarth::f(Vector &state, double time) const
     double v_sqr = vx*vx + vy*vy;
 
     double height = y; // Change later for ellipse model
+    if (height < 0) {
+        state = {0, 0, 0, 0};
+        return;
+    }
     auto atm = (*atmosphere)(height);
     double M = sqrt(v_sqr) / atm.soundSpeed; // mach value
 
@@ -38,15 +42,10 @@ void BR2DFlatEarth::f(Vector &state, double time) const
 
     // Passive arc
     if (time > params->stageEndtime.third) {
-        // TODO: just drag and gravitational forces
         if (height < 1200000) {
-            if (time > 904) {
-                std::cout << time << " h: " << height << " M: " << M << '\n';
-            }
             double Cd = (*Cx_W)(M);
-            // std::cout << "ok\n";
-            // midel area 2 - change to midel for warhead
-            drag = 0.5 * atm.density * params->missile.midelArea2 * Cd * (vx*vx + vy*vy);
+            // TODO: midel area 2 - change to midel for warhead
+            drag = 0.5 * atm.density * params->missile.midelArea2 * Cd * v_sqr;
         }
         double v = sqrt(v_sqr);
         state[2] = -drag / endMass * vx / v;
@@ -59,12 +58,12 @@ void BR2DFlatEarth::f(Vector &state, double time) const
     else if (time > params->stageEndtime.first) {
         // second stage
         double Cd = (*Cx_2)(height)(M);
-        drag = 0.5 * atm.density * params->missile.midelArea2 * Cd * (vx*vx + vy*vy);
+        drag = 0.5 * atm.density * params->missile.midelArea2 * Cd * v_sqr;
     }
     else {
         // first stage
         double Cd = (*Cx_1)(height)(M);
-        drag = 0.5 * atm.density * params->missile.midelArea1 * Cd * (vx*vx + vy*vy);
+        drag = 0.5 * atm.density * params->missile.midelArea1 * Cd * v_sqr;
     }
 
     // TODO: Change 9.81 to G*Me*<component> / r**3 

@@ -23,10 +23,10 @@ std::pair<std::vector<double>, std::vector<double>> FunctionCreator::extractXY(c
     return {x, y};
 }
 
-Function<double, double> *FunctionCreator::createLinearInterpolator(const std::string &filename)
+Function<double, double> *FunctionCreator::createLinearInterpolator(const std::string &filename, bool allowExtrapolation)
 {
     auto xy = extractXY(filename);
-    LinearInterpolatedFunction *fun = new LinearInterpolatedFunction(xy.first, xy.second);
+    LinearInterpolatedFunction *fun = new LinearInterpolatedFunction(xy.first, xy.second, allowExtrapolation);
 
     return fun;
 }

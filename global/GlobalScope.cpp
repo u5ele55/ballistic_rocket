@@ -78,7 +78,7 @@ Function<double, Function<double, double> &> &GlobalScope::getDragCoef2Evaluator
 Function<double, double> &GlobalScope::getDragCoefWarheadEvaluator()
 {
     if (dragCoefW == nullptr) {
-        dragCoefW = creator.createLinearInterpolator(FILENAMES.at("Cx_warhead"));
+        dragCoefW = creator.createLinearInterpolator(FILENAMES.at("Cx_warhead"), true);
     }
 
     return *dragCoefW;
