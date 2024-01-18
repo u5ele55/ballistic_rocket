@@ -69,7 +69,7 @@ Function<double, Function<double, double> &> &GlobalScope::getDragCoef2Evaluator
 {
     if (dragCoef2 == nullptr) {
         dragCoef2 = reinterpret_cast<Function<double, Function<double, double>&>*>(
-            creator.createConditionalLinearInterpolator(FILENAMES.at("Cx_2")));
+            creator.createConditionalLinearInterpolator(FILENAMES.at("Cx_2")), true);
     }
 
     return *dragCoef2;

@@ -4,7 +4,7 @@
 #include "../../utils/Function/Function.hpp"
 #include "../../utils/Function/physics/AtmosphereParameters.hpp"
 
-class BR2DRoundEarth : public ISystem
+class BR3DRoundEarth : public ISystem
 {
 private:
     Vector initialState;
@@ -22,7 +22,7 @@ private:
 
     double endMass;
 public:
-    BR2DRoundEarth(Parameters * params, double x, double y, double vx, double vy);
+    BR3DRoundEarth(Parameters * params, Vector initialCoordinates, Vector initialVelocity);
     void f(Vector &state, double time) const;
     Vector getInitialState() const;
 }; 

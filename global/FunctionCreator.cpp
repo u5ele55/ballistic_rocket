@@ -47,7 +47,7 @@ Function<double, double> *FunctionCreator::createCatmullRomSplineInterpolator(co
     return fun;
 }
 
-ConditionalLinearInterpolation *FunctionCreator::createConditionalLinearInterpolator(const std::string &filename)
+ConditionalLinearInterpolation *FunctionCreator::createConditionalLinearInterpolator(const std::string &filename, bool allowExtrapolation)
 {
     std::ifstream file(filename);
 
@@ -73,7 +73,7 @@ ConditionalLinearInterpolation *FunctionCreator::createConditionalLinearInterpol
     }
     file.close();
 
-    ConditionalLinearInterpolation *fun = new ConditionalLinearInterpolation(conds, x, y);
+    ConditionalLinearInterpolation *fun = new ConditionalLinearInterpolation(conds, x, y, allowExtrapolation);
 
     return fun;
 }

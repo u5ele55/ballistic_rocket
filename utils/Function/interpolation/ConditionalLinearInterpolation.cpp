@@ -2,13 +2,13 @@
 
 #include <stdexcept>
 
-ConditionalLinearInterpolation::ConditionalLinearInterpolation(std::vector<double> conditions, std::vector<double> x, std::vector<std::vector<double>> y)
+ConditionalLinearInterpolation::ConditionalLinearInterpolation(std::vector<double> conditions, std::vector<double> x, std::vector<std::vector<double>> y, bool allowExtrapolation)
 {
     if (conditions.size() != y.size() || x.size() != y[0].size()) {
         throw std::runtime_error("Size mismatch for conditional interpolation");
     }
     for (int i = 0; i < y.size(); i ++) {
-        use.emplace_back(conditions[i], new LinearInterpolatedFunction(x, y[i]));
+        use.emplace_back(conditions[i], new LinearInterpolatedFunction(x, y[i], allowExtrapolation));
     }
 }
 
