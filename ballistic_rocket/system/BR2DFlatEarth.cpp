@@ -1,5 +1,6 @@
 #include "BR2DFlatEarth.hpp"
 #include "../../global/GlobalScope.hpp"
+#include "../../global/Constants.hpp"
 
 #include <cmath>
 
@@ -28,6 +29,7 @@ void BR2DFlatEarth::f(Vector &state, double time) const
     double vx = state[2], vy = state[3];
 
     double v_sqr = vx*vx + vy*vy;
+    double v = sqrt(v_sqr);
 
     double height = y; // Change later for ellipse model
     if (height < 0) {
@@ -40,6 +42,8 @@ void BR2DFlatEarth::f(Vector &state, double time) const
     state[0] = vx;
     state[1] = vy;
 
+    double gravitationalForceY = Constants::Common::G * Constants::Earth::MASS / (pow(Constants::Earth::MAJOR_AXIS, 2) + y*y);
+
     // Passive arc
     if (time > params->stageEndtime.third) {
         if (height < 1200000) {
@@ -47,9 +51,8 @@ void BR2DFlatEarth::f(Vector &state, double time) const
             // TODO: midel area 2 - change to midel for warhead
             drag = 0.5 * atm.density * params->missile.midelArea2 * Cd * v_sqr;
         }
-        double v = sqrt(v_sqr);
         state[2] = -drag / endMass * vx / v;
-        state[3] = -drag / endMass * vy / v - 9.81;
+        state[3] = -drag / endMass * vy / v - gravitationalForceY;
         return;
     }
     else if (time > params->stageEndtime.second) {
@@ -62,17 +65,18 @@ void BR2DFlatEarth::f(Vector &state, double time) const
     }
     else {
         // first stage
+        // std::cout << "M: " << M << " h: " << height << " ss: " << atm.soundSpeed << " v: " << vx << ", " << vy << '\n';
         double Cd = (*Cx_1)(height)(M);
         drag = 0.5 * atm.density * params->missile.midelArea1 * Cd * v_sqr;
     }
-
+    
     // TODO: Change 9.81 to G*Me*<component> / r**3 
     double P = 9.81 * (*power)(time);
     double m = (*mass)(time);
     double theta = (*pitchAngle)(time) * M_PI / 180;
-
-    state[2] = (P - drag) / m * cos(theta);
-    state[3] = (P - drag) / m * sin(theta) - 9.81;
+    // std::cout << "Drag: " << drag << " g: " << gravitationalForceY << '\n';
+    state[2] = (P * cos(theta) - drag  * vx / v) / m;
+    state[3] = (P * sin(theta) - drag  * vy / v) / m - gravitationalForceY;
 }
 
 Vector BR2DFlatEarth::getInitialState() const

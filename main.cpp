@@ -16,7 +16,7 @@ int main() {
     BR2DFlatEarth *model = new BR2DFlatEarth(params, 0, params->setup.height, 0, params->setup.velocity);
     RK4Solver solver(model);
 
-    double step = 2, time = step;
+    double step = 2, time = 0;
     std::ofstream file("trajectory.txt");
     auto state = solver.solve(0);
     auto lastState = Vector{};
@@ -25,6 +25,7 @@ int main() {
         if (state[1] > 0) {
             file << time << ' ' << state[0] << ' ' << state[1] << '\n';
         }
+        std::cout << time << "ok\n";
         time += step;
     }
     // todo: bin search for missile fall time 
