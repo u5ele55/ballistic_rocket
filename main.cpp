@@ -1,29 +1,40 @@
 #include <iostream>
-#include "utils/Vector.hpp"
-#include "utils/function/interpolation/LinearInterpolatedFunction.hpp"
-#include "utils/function/interpolation/CubicSplinesInterpolation.hpp"
 #include <vector>
 
+#include "utils/Vector.hpp"
+#include "ballistic_rocket/modeling/RK4Solver.hpp"
+#include "ballistic_rocket/system/BR2DFlatEarth.hpp"
+#include "global/GlobalScope.hpp"
+#include "utils/file_input/ParametersInputter.hpp"
+#include "utils/file_input/filenames.hpp"
+
+#include "utils/Function/physics/AtmosphereParameters.hpp"
 
 int main() {
-    // Interpolation test
-    std::vector<double> x = {2, 5, 8, 9, 12, 15, 20, 22, 25};
-    std::vector<double> y = {3, -1, 6, 8, 3, 6, 13, 0, 3};
+    ParametersInputter paramsCreator(FILENAMES.at("parameters"));
+    Parameters * params = paramsCreator.create();
+    BR2DFlatEarth *model = new BR2DFlatEarth(params, 0, params->setup.height, 0, params->setup.velocity);
+    RK4Solver solver(model);
 
-    CatmullRomSplineInterpolation fun(x, y);
-
-    std::cout << x.size() << '\n';
-    for(int i = 0; i < x.size(); i ++) {
-        std::cout << x[i] << ' ' << y[i] << '\n';
+    double step = 2, time = 0;
+    std::ofstream file("trajectory.txt");
+    auto state = solver.solve(0);
+    auto lastState = Vector{};
+    while (state[1] > 0 && step > 0.001) {
+        state = solver.solve(time);
+        if (state[1] > 0) {
+            file << time << ' ' << state[0] << ' ' << state[1] << '\n';
+        }
+        std::cout << time << "ok\n";
+        time += step;
     }
+    // todo: bin search for missile fall time 
 
-    double step = 0.2;
-    int N = (x[x.size() - 1] - x[0]) / step;
-    std::cout << N << '\n';
-    for (int i = 0; i < N; i ++) {
-        double X = x[0] + step * i;
-        std::cout << X << ' ' << fun(X) << '\n';
-    }
+    file.close();
+
+    delete model;
+    delete params;
+    std::cout << "done\n";
 
     return 0;
 }

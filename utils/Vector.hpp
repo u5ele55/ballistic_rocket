@@ -41,6 +41,7 @@ public:
     Vector &operator=(Vector &&other);
 
     bool operator==(const Vector &other) const;
+    bool operator!=(const Vector &other) const;
 
     /**
      * @return is current vector lower then other lexicographically

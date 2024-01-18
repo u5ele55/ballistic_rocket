@@ -1,7 +1,7 @@
 #include "CubicSplinesInterpolation.hpp"
 
 #include <stdexcept>
-#include <iostream>
+
 CubicSplinesInterpolation::CubicSplinesInterpolation(std::vector<double> x, std::vector<double> y, std::vector<Vector> coefs)
     : InterpolatedFunction(x, y), coefs(coefs), y_near(4), a(4)
 {
