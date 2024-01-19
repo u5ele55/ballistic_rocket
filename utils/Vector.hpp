@@ -34,6 +34,8 @@ public:
 
     Vector operator*(double val) const;
 
+    Vector operator/(double val) const;
+
     Vector &operator+=(const Vector &other);
 
     Vector &operator=(const Vector &other);
