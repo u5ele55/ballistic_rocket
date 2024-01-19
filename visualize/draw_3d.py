@@ -23,4 +23,7 @@ z_r = MINOR_AXIS * np.cos(v)
 
 ax.plot_surface(x_r, y_r, z_r, cmap=plt.cm.YlGnBu_r, alpha=0.6)
 
+x,y,z = [float(a) for a in '1.34283e+06 -5.42516e+06 3.06318e+06'.split()]
+
+ax.scatter(x,y,z)
 plt.show()
