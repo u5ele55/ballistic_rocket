@@ -35,7 +35,7 @@ int main() {
     auto state = solver.solve(0);
     auto lastState = Vector(state.size());
 
-    while ((state - lastState).norm() > 0.01 && step > 0.001) {
+    while ((state - lastState).norm() > 0.01) {
         lastState = state;
         try {
             state = solver.solve(time);
