@@ -19,3 +19,26 @@ Vector LinAlg::rotateAbout(const Vector &a, const Vector &b, double angle)
 
     return a_rot_b;
 }
+
+double LinAlg::angle(const Vector &a, const Vector &b)
+{
+    double normA = a.norm(), normB = b.norm();
+
+    if (normA == 0 || normB == 0) {
+        return 0;
+    }
+
+    double cos_angle = a.dot(b) / (normA * normB);
+
+    return acos(cos_angle);
+}
+
+Vector LinAlg::projectionOnPlane(const Vector &src, const Vector &basis1, const Vector &basis2)
+{
+    Vector n = basis1.cross(basis2); // normal vector
+    n = n / n.norm();
+
+    Vector proj = n * src.dot(n);
+
+    return proj;
+}
