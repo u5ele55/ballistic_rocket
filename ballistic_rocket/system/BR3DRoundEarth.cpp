@@ -73,9 +73,6 @@ void BR3DRoundEarth::f(Vector &state, double time) const
     }
     else if (time > params->stageEndtime.second) {
         // third stage
-        if (time > 174)
-            std::cout << "time: " << time << " M: " << M << " h: " << height << " ss: " << atm.soundSpeed << " v: " << vx << ", " << vy << '\n';
-        
     }
     else if (time > params->stageEndtime.first) {
         // second stage
@@ -98,6 +95,7 @@ void BR3DRoundEarth::f(Vector &state, double time) const
 
     P = LinAlg::rotateAbout(P, {0, 0, 1}, M_PI / 6);
     P = LinAlg::rotateAbout(P, {1, 0, 0}, M_PI / 4);
+    // rotationSequence(P);
 
     // std::cout << "Drag: " << drag << " g: " << gravitationalForceY << '\n';
     state[3] = (P[0] - drag  * vx / v) / m - gravitationalForce[0];

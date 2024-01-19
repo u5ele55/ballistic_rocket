@@ -3,6 +3,7 @@
 
 #include "utils/Vector.hpp"
 #include "utils/LinAlg.hpp"
+#include "utils/coordinates.hpp"
 #include "ballistic_rocket/modeling/RK4Solver.hpp"
 #include "ballistic_rocket/system/BR3DRoundEarth.hpp"
 #include "utils/file_input/ParametersInputter.hpp"
@@ -18,12 +19,16 @@ int main() {
 
     Vector testCoord = {0, Constants::Earth::MAJOR_AXIS + params->setup.height, 0};
     Vector testVelocity = {0, params->setup.velocity, 0};
+
+    Vector y_prime = blh2ecef({params->setup.latitude, params->setup.longitude, params->setup.height});
+    Vector y_proj = LinAlg::projectionOnPlane(y_prime, {1,0,0}, {0,1,0});
+
+    double angle = LinAlg::angle({0,1,0}, y_prime);
+    Vector x_prime = LinAlg::rotateAbout({1,0,0}, {0,0,1}, angle);
     
-    testCoord = LinAlg::rotateAbout(testCoord, {0, 0, 1}, M_PI / 6);
-    testCoord = LinAlg::rotateAbout(testCoord, {1, 0, 0}, M_PI / 4);
-    
-    testVelocity = LinAlg::rotateAbout(testVelocity, {0, 0, 1}, M_PI / 6);
-    testVelocity = LinAlg::rotateAbout(testVelocity, {1, 0, 0}, M_PI / 4);
+    testVelocity = LinAlg::rotateAbout(testVelocity, {0, 0, 1}, angle);
+    testVelocity = LinAlg::rotateAbout(testVelocity, x_prime, LinAlg::angle(y_prime, y_proj));
+    testVelocity = LinAlg::rotateAbout(testVelocity, y_prime, LinAlg::angle(x_prime, azimuthVector));
 
     std::cout << testCoord << " " << testVelocity << '\n';
 
@@ -40,12 +45,12 @@ int main() {
         try {
             state = solver.solve(time);
         } catch (const std::exception &e) {
-            std::cout << e.what() << '\n';
+            std::cout << "Error: " << e.what() << '\n';
             break;
         }
         file << time << ' ' << state[0] << ' ' << state[1] << ' ' << state[2] << '\n';
         
-        std::cout << time << " " << state << "ok\n";
+        // std::cout << time << " " << state << "ok\n";
         time += step;
     }
     // todo: bin search for missile fall time 
@@ -54,6 +59,7 @@ int main() {
 
     delete model;
     delete params;
+
     std::cout << "done\n";
 
     return 0;
