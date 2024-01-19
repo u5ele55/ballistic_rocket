@@ -33,11 +33,16 @@ int main() {
     double step = 2, time = 2;
     std::ofstream file("trajectory.txt");
     auto state = solver.solve(0);
-    auto lastState = Vector(6);
+    auto lastState = Vector(state.size());
 
     while ((state - lastState).norm() > 0.01 && step > 0.001) {
         lastState = state;
-        state = solver.solve(time);
+        try {
+            state = solver.solve(time);
+        } catch (const std::exception &e) {
+            std::cout << e.what() << '\n';
+            break;
+        }
         file << time << ' ' << state[0] << ' ' << state[1] << ' ' << state[2] << '\n';
         
         std::cout << time << " " << state << "ok\n";

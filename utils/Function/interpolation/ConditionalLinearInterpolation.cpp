@@ -2,7 +2,11 @@
 
 #include <stdexcept>
 
-ConditionalLinearInterpolation::ConditionalLinearInterpolation(std::vector<double> conditions, std::vector<double> x, std::vector<std::vector<double>> y, bool allowExtrapolation)
+ConditionalLinearInterpolation::ConditionalLinearInterpolation(
+    std::vector<double> conditions, 
+    std::vector<double> x, 
+    std::vector<std::vector<double>> y, 
+    bool allowExtrapolation)
 {
     if (conditions.size() != y.size() || x.size() != y[0].size()) {
         throw std::runtime_error("Size mismatch for conditional interpolation");
@@ -15,8 +19,10 @@ ConditionalLinearInterpolation::ConditionalLinearInterpolation(std::vector<doubl
 // returns linearly interpolated function depends on h
 InterpolatedFunction &ConditionalLinearInterpolation::operator()(double h)
 {
+    if (h < use[0].first) {
+        throw std::runtime_error("Given parameter is out of conditions in conditional interpolation");
+    }
     int l = 0, r = use.size()-1, mid;
-
     while (r - l > 1) {
         mid = (r+l) / 2;
         if (use[mid].first > h) {

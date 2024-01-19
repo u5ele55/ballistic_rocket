@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../utils/Function/Function.hpp"
-#include "../utils/function/physics/AtmosphereParameters.hpp"
+#include "../utils/Function/physics/AtmosphereParameters.hpp"
 #include "FunctionCreator.hpp"
 
 class GlobalScope {

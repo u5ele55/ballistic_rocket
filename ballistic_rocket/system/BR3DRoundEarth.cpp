@@ -1,9 +1,11 @@
 #include "BR3DRoundEarth.hpp"
 #include "../../global/GlobalScope.hpp"
 #include "../../global/Constants.hpp"
+#include "../../utils/LinAlg.hpp"
 
 #include <cmath>
 
+#include <iostream>
 BR3DRoundEarth::BR3DRoundEarth(Parameters *params, Vector initialCoordinates, Vector initialVelocity)
     : params(params),
     initialState({
@@ -12,7 +14,8 @@ BR3DRoundEarth::BR3DRoundEarth(Parameters *params, Vector initialCoordinates, Ve
         initialCoordinates[2], 
         initialVelocity[0], 
         initialVelocity[1], 
-        initialVelocity[2]})
+        initialVelocity[2]
+    })
 {
     auto &scope = GlobalScope::getInstance();
 
@@ -27,7 +30,6 @@ BR3DRoundEarth::BR3DRoundEarth(Parameters *params, Vector initialCoordinates, Ve
     Cx_2 = &scope.getDragCoef2Evaluator();
     Cx_W = &scope.getDragCoefWarheadEvaluator();
 }
-#include <iostream>
 void BR3DRoundEarth::f(Vector &state, double time) const
 {
     double drag = 0;
@@ -47,7 +49,7 @@ void BR3DRoundEarth::f(Vector &state, double time) const
     }
     double height = sqrt(height_sqr);
     auto atm = (*atmosphere)(height);
-    double M = sqrt(v_sqr) / atm.soundSpeed; // mach value
+    double M = v / atm.soundSpeed; // mach value
 
     state[0] = vx;
     state[1] = vy;
@@ -56,7 +58,9 @@ void BR3DRoundEarth::f(Vector &state, double time) const
     auto gravitationalForce = Vector{x, y, z} * (Constants::Common::G * Constants::Earth::MASS / pow(r_sqr, 1.5));
 
     // Passive arc
-    if (time > params->stageEndtime.third) {
+    if (time >= params->stageEndtime.third) {
+        // if (time == (int)time)
+        // std::cout << "time: " << time << " M: " << M << " h: " << height << " ss: " << atm.soundSpeed << " v: " << vx << ", " << vy << '\n';
         if (height < 1200000) {
             double Cd = (*Cx_W)(M);
             // TODO: midel area 2 - change to midel for warhead
@@ -69,11 +73,14 @@ void BR3DRoundEarth::f(Vector &state, double time) const
     }
     else if (time > params->stageEndtime.second) {
         // third stage
+        if (time > 174)
+            std::cout << "time: " << time << " M: " << M << " h: " << height << " ss: " << atm.soundSpeed << " v: " << vx << ", " << vy << '\n';
+        
     }
     else if (time > params->stageEndtime.first) {
         // second stage
-        // std::cout << "time: " << time << " M: " << M << " h: " << height << " ss: " << atm.soundSpeed << " v: " << vx << ", " << vy << '\n';
-        double Cd = (*Cx_2)(height)(M);
+        auto &fun = (*Cx_2)(height);
+        double Cd = fun(M);
         drag = 0.5 * atm.density * params->missile.midelArea2 * Cd * v_sqr;
     }
     else {
@@ -85,13 +92,17 @@ void BR3DRoundEarth::f(Vector &state, double time) const
     }
     
     // TODO: Change 9.81 to G*Me*<component> / r**3 
-    double P = 9.81 * (*power)(time);
     double m = (*mass)(time);
     double theta = (*pitchAngle)(time) * M_PI / 180;
+    Vector P = Vector{cos(theta), sin(theta), 0} * 9.81 * (*power)(time);
+
+    P = LinAlg::rotateAbout(P, {0, 0, 1}, M_PI / 6);
+    P = LinAlg::rotateAbout(P, {1, 0, 0}, M_PI / 4);
+
     // std::cout << "Drag: " << drag << " g: " << gravitationalForceY << '\n';
-    state[3] = (P * cos(theta) - drag  * vx / v) / m - gravitationalForce[0];
-    state[4] = (P * sin(theta) - drag  * vy / v) / m - gravitationalForce[1];
-    state[5] = (- drag  * vz / v) / m - gravitationalForce[2];
+    state[3] = (P[0] - drag  * vx / v) / m - gravitationalForce[0];
+    state[4] = (P[1] - drag  * vy / v) / m - gravitationalForce[1];
+    state[5] = (P[2] - drag  * vz / v) / m - gravitationalForce[2];
 }
 
 Vector BR3DRoundEarth::getInitialState() const
