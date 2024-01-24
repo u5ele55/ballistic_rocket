@@ -21,6 +21,7 @@ private:
     Function<double, double> *Cx_W;
 
     double endMass;
+    Vector fromStartToNorth;
 public:
     BR3DRoundEarth(Parameters * params, Vector initialCoordinates, Vector initialVelocity);
     void f(Vector &state, double time) const;

@@ -42,3 +42,11 @@ Vector LinAlg::projectionOnPlane(const Vector &src, const Vector &basis1, const 
 
     return proj;
 }
+
+Vector LinAlg::projectionOnEllipse(const Vector &r, double a, double b, double c)
+{
+    double X = r[0], Y = r[1], Z = r[2];
+    double t = 1 / sqrt(X*X / (a*a) + Y*Y / (b*b) + Z*Z / (c*c));
+
+    return r * t;
+}

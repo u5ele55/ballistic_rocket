@@ -22,7 +22,8 @@ Parameters *ParametersInputter::create()
         >> missile.midelArea1
         >> missile.nozzleCutoffArea2
         >> missile.midelArea2
-        >> missile.nozzleCutoffArea3;
+        >> missile.nozzleCutoffArea3
+        >> missile.midelAreaW;
     
     StageEndtime stageEndtime;
     file 
