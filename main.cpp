@@ -13,6 +13,8 @@
 #include "global/Constants.hpp"
 
 int main() {
+
+
     ParametersInputter paramsCreator(FILENAMES.at("parameters"));
     Parameters * params = paramsCreator.create();
 
