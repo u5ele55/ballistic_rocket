@@ -31,7 +31,6 @@ BR3DRoundEarth::BR3DRoundEarth(Parameters *params, Vector initialCoordinates, Ve
     Cx_2 = &scope.getDragCoef2Evaluator();
     Cx_W = &scope.getDragCoefWarheadEvaluator();
     fromStartToNorth = Vector{0,0,1} - initialCoordinates * initialCoordinates.dot({0,0,1}) / initialCoordinates.dot(initialCoordinates);
-    
 }
 
 void BR3DRoundEarth::f(Vector &state, double time) const
@@ -103,8 +102,6 @@ void BR3DRoundEarth::f(Vector &state, double time) const
     P = LinAlg::rotateAbout(P, {1,0,0}, params->setup.latitude);
     P = LinAlg::rotateAbout(P, {0,0,1}, params->setup.longitude - M_PI_2);
     auto x_prime = LinAlg::rotateAbout({1,0,0}, {0,0,1}, params->setup.longitude - M_PI_2);
-    // std::cout << x_prime << " " << LinAlg::angle(x_prime, fromStartToNorth) << ' ' << fromStartToNorth << '\n';
-    // exit(0);
     P = LinAlg::rotateAbout(P, {initialState[0], initialState[1], initialState[2]}, -LinAlg::angle(x_prime, fromStartToNorth)-params->setup.azimuth);
 
     // std::cout << "Drag: " << drag << " g: " << gravitationalForceY << '\n';
