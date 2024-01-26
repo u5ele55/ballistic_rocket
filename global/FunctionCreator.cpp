@@ -1,6 +1,7 @@
 #include "FunctionCreator.hpp"
 
 #include "../utils/Function/interpolation/LinearInterpolatedFunction.hpp"
+#include "../utils/Function/interpolation/LinearInterpolationWithDiscontinuties.hpp"
 #include "../utils/Function/interpolation/CubicSplinesInterpolation.hpp"
 
 #include <fstream>
@@ -27,6 +28,14 @@ Function<double, double> *FunctionCreator::createLinearInterpolator(const std::s
 {
     auto xy = extractXY(filename);
     LinearInterpolatedFunction *fun = new LinearInterpolatedFunction(xy.first, xy.second, allowExtrapolation);
+
+    return fun;
+}
+
+Function<double, double> *FunctionCreator::createDiscontinuityLinearInterpolator(const std::string &filename, std::vector<double> breaks)
+{
+    auto xy = extractXY(filename);
+    auto *fun = new LinearInterpolationWithDiscontinuties(xy.first, xy.second, breaks);
 
     return fun;
 }

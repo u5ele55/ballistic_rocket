@@ -3,6 +3,7 @@
 #include "../utils/Function/Function.hpp"
 #include "../utils/Function/physics/AtmosphereParameters.hpp"
 #include "FunctionCreator.hpp"
+#include "../ballistic_rocket/system/Parameters.hpp"
 
 class GlobalScope {
 private:
@@ -17,6 +18,8 @@ private:
     Function<double, Function<double, double>&> *dragCoef1;
     Function<double, Function<double, double>&> *dragCoef2;
     Function<double, double> *dragCoefW;
+
+    Parameters * params;
 public:
     GlobalScope(GlobalScope const&)    = delete;
     void operator=(GlobalScope const&) = delete;
@@ -31,4 +34,6 @@ public:
     Function<double, Function<double, double>&>& getDragCoef1Evaluator();
     Function<double, Function<double, double>&>& getDragCoef2Evaluator();
     Function<double, double>& getDragCoefWarheadEvaluator();
+
+    void setParameters(Parameters * params);
 };

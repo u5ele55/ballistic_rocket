@@ -29,9 +29,17 @@ double LinearInterpolationWithDiscontinuties::operator()(double t)
         }
     }
 
+    int pivotInd1 = l, pivotInd2 = r;
+
     for(int i = 0; i < breaks.size(); i ++) {
-        if (breaks[i] < grid[r].first) {
-            if (breaks[i] < grid[r].first)
+        if (breaks[i] == grid[l].first) {
+            pivotInd1 = r;
+            pivotInd2 = r+1;
         }
     }
+
+    double x1 = grid[pivotInd1].first, x2 = grid[pivotInd2].first;
+    double y1 = grid[pivotInd1].second, y2 = grid[pivotInd2].second;
+
+    return (y2-y1) / (x2-x1) * (t - x1) + y1;
 }

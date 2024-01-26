@@ -13,10 +13,10 @@
 #include "global/Constants.hpp"
 
 int main() {
-
-
     ParametersInputter paramsCreator(FILENAMES.at("parameters"));
     Parameters * params = paramsCreator.create();
+
+    GlobalScope::getInstance().setParameters(params);
 
     Vector blhStart = {params->setup.latitude, params->setup.longitude, params->setup.height};
     Vector coordinate = blh2ecef(blhStart);
@@ -57,7 +57,7 @@ int main() {
         }
     }
     std::cout << "Flight time: " << r_time << " s. \n";
-    // todo: bin search for missile fall time 
+    
     blhStart[0] *= 180 / M_PI;
     blhStart[1] *= 180 / M_PI;
     Vector blhEnd = ecef2blh(state);
