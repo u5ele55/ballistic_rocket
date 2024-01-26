@@ -1,6 +1,7 @@
 #include "FunctionCreator.hpp"
 
 #include "../utils/Function/interpolation/LinearInterpolatedFunction.hpp"
+#include "../utils/Function/interpolation/LinearInterpolationWithDiscontinuties.hpp"
 #include "../utils/Function/interpolation/CubicSplinesInterpolation.hpp"
 
 #include <fstream>
@@ -31,6 +32,14 @@ Function<double, double> *FunctionCreator::createLinearInterpolator(const std::s
     return fun;
 }
 
+Function<double, double> *FunctionCreator::createDiscontinuityLinearInterpolator(const std::string &filename, std::vector<double> breaks)
+{
+    auto xy = extractXY(filename);
+    auto *fun = new LinearInterpolationWithDiscontinuties(xy.first, xy.second, breaks);
+
+    return fun;
+}
+
 Function<double, double> *FunctionCreator::createCubicSplineInterpolator(const std::string &filename)
 {
     auto xy = extractXY(filename);
@@ -47,7 +56,7 @@ Function<double, double> *FunctionCreator::createCatmullRomSplineInterpolator(co
     return fun;
 }
 
-ConditionalLinearInterpolation *FunctionCreator::createConditionalLinearInterpolator(const std::string &filename)
+ConditionalLinearInterpolation *FunctionCreator::createConditionalLinearInterpolator(const std::string &filename, bool allowExtrapolation)
 {
     std::ifstream file(filename);
 
@@ -73,7 +82,7 @@ ConditionalLinearInterpolation *FunctionCreator::createConditionalLinearInterpol
     }
     file.close();
 
-    ConditionalLinearInterpolation *fun = new ConditionalLinearInterpolation(conds, x, y);
+    ConditionalLinearInterpolation *fun = new ConditionalLinearInterpolation(conds, x, y, allowExtrapolation);
 
     return fun;
 }

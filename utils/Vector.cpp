@@ -117,6 +117,11 @@ Vector Vector::operator*(double val) const {
     return res;
 }
 
+Vector Vector::operator/(double val) const
+{
+    return *this * (1/val);
+}
+
 Vector Vector::operator+(const Vector &other) const {
     if (n != other.n) {
         throw std::invalid_argument("Vector::operator+: Wrong sizes");

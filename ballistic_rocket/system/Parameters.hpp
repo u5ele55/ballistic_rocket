@@ -4,6 +4,7 @@ struct MissileParameters
 {
     double midelArea1;
     double midelArea2;
+    double midelAreaW;
     double nozzleCutoffArea1;
     double nozzleCutoffArea2;
     double nozzleCutoffArea3;

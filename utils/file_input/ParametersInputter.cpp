@@ -1,4 +1,5 @@
 #include "ParametersInputter.hpp"
+#include <cmath>
 
 ParametersInputter::ParametersInputter(const std::string &filename)
     : file(filename) {}
@@ -12,14 +13,17 @@ Parameters *ParametersInputter::create()
         >> setup.longitude
         >> setup.height
         >> setup.velocity;
-    
+    setup.latitude *= M_PI / 180;
+    setup.longitude *= M_PI / 180;
+
     MissileParameters missile;
     file 
         >> missile.nozzleCutoffArea1
         >> missile.midelArea1
         >> missile.nozzleCutoffArea2
         >> missile.midelArea2
-        >> missile.nozzleCutoffArea3;
+        >> missile.nozzleCutoffArea3
+        >> missile.midelAreaW;
     
     StageEndtime stageEndtime;
     file 

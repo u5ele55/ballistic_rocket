@@ -2,6 +2,8 @@
 #include "../utils/Function/physics/AirDensityExponentialModel.hpp"
 #include "../utils/file_input/filenames.hpp"
 
+#include <stdexcept>
+
 GlobalScope::GlobalScope() 
     : power(nullptr),
     atmosphere(nullptr),
@@ -29,8 +31,13 @@ Function<double, AtmosphereParameters> &GlobalScope::getAtmosphereParamsEvaluato
 
 Function<double, double> &GlobalScope::getPowerEvaluator()
 {
+    if (params == nullptr) {
+        throw std::runtime_error("Power evaluator can't be created because parameters is not initialized");
+    }
     if (power == nullptr) {
-        power = creator.createLinearInterpolator(FILENAMES.at("power"));
+        power = creator.createDiscontinuityLinearInterpolator(
+            FILENAMES.at("power"), {params->stageEndtime.first, params->stageEndtime.second}
+        );
     }
 
     return *power;
@@ -38,8 +45,13 @@ Function<double, double> &GlobalScope::getPowerEvaluator()
 
 Function<double, double> &GlobalScope::getMassEvaluator()
 {
+    if (params == nullptr) {
+        throw std::runtime_error("Mass evaluator can't be created because parameters is not initialized");
+    }
     if (mass == nullptr) {
-        mass = creator.createLinearInterpolator(FILENAMES.at("mass"));
+        mass = creator.createDiscontinuityLinearInterpolator(
+            FILENAMES.at("mass"), {params->stageEndtime.first, params->stageEndtime.second}
+        );
     }
 
     return *mass;
@@ -54,7 +66,6 @@ Function<double, double> &GlobalScope::getPitchAngleEvaluator()
     return *pitchAngle;
 }
 
-#include <iostream>
 Function<double, Function<double, double> &> &GlobalScope::getDragCoef1Evaluator()
 {
     if (dragCoef1 == nullptr) {
@@ -69,9 +80,9 @@ Function<double, Function<double, double> &> &GlobalScope::getDragCoef2Evaluator
 {
     if (dragCoef2 == nullptr) {
         dragCoef2 = reinterpret_cast<Function<double, Function<double, double>&>*>(
-            creator.createConditionalLinearInterpolator(FILENAMES.at("Cx_2")));
+            creator.createConditionalLinearInterpolator(FILENAMES.at("Cx_2"), true));
     }
-
+    
     return *dragCoef2;
 }
 
@@ -82,6 +93,11 @@ Function<double, double> &GlobalScope::getDragCoefWarheadEvaluator()
     }
 
     return *dragCoefW;
+}
+
+void GlobalScope::setParameters(Parameters *params)
+{
+    this->params = params;
 }
 
 GlobalScope::~GlobalScope()

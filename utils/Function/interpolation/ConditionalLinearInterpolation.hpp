@@ -8,7 +8,8 @@ public:
     ConditionalLinearInterpolation(
         std::vector<double> conditions,
         std::vector<double> x,
-        std::vector<std::vector<double>> y);
+        std::vector<std::vector<double>> y,
+        bool allowExtrapolation = false);
     InterpolatedFunction& operator()(double h);
     ~ConditionalLinearInterpolation() {};
 };

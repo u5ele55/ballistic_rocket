@@ -4,7 +4,7 @@
 #include "../../utils/Function/Function.hpp"
 #include "../../utils/Function/physics/AtmosphereParameters.hpp"
 
-class BR2DFlatEarth : public ISystem
+class BR3DRoundEarth : public ISystem
 {
 private:
     Vector initialState;
@@ -21,8 +21,9 @@ private:
     Function<double, double> *Cx_W;
 
     double endMass;
+    Vector fromStartToNorth;
 public:
-    BR2DFlatEarth(Parameters * params, double x, double y, double vx, double vy);
+    BR3DRoundEarth(Parameters * params, Vector initialCoordinates, Vector initialVelocity);
     void f(Vector &state, double time) const;
     Vector getInitialState() const;
 }; 
