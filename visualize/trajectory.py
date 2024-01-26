@@ -40,9 +40,9 @@ class TrajectoryDrawer:
         if not self.drawTrasse:
             return
 
-        fig = plt.figure()
+        fig = plt.figure(figsize=(8,4))
         ax = fig.add_subplot()
-        img = plt.imread("../visualize/map.jpg")
+        img = plt.imread("../visualize/map_3.jpg")
         plt.imshow(img, extent=[-180, 180, -90, 90])
         ax.set_aspect("auto")
 
@@ -64,7 +64,7 @@ class TrajectoryDrawer:
         lmbd *= 180 / np.pi
         phi *= 180 / np.pi
 
-        ax.plot(lmbd, phi)
+        ax.plot(lmbd, phi, c='orange')
         ax.scatter(lmbd[0], phi[0], label='start', c="#00FF00")
         ax.scatter(lmbd[-1], phi[-1], label='end', c='#FF0000')
         
