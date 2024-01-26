@@ -103,8 +103,6 @@ void BR3DRoundEarth::f(Vector &state, double time) const
     P = LinAlg::rotateAbout(P, {0,0,1}, params->setup.longitude - M_PI_2);
     auto x_prime = LinAlg::rotateAbout({1,0,0}, {0,0,1}, params->setup.longitude - M_PI_2);
     P = LinAlg::rotateAbout(P, {initialState[0], initialState[1], initialState[2]}, -LinAlg::angle(x_prime, fromStartToNorth)-params->setup.azimuth);
-
-    // std::cout << "Drag: " << drag << " g: " << gravitationalForceY << '\n';
     state[3] = (P[0] - drag  * vx / v) / m - gravitationalForce[0];
     state[4] = (P[1] - drag  * vy / v) / m - gravitationalForce[1];
     state[5] = (P[2] - drag  * vz / v) / m - gravitationalForce[2];
