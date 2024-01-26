@@ -13,6 +13,7 @@ Parameters *ParametersInputter::create()
         >> setup.longitude
         >> setup.height
         >> setup.velocity;
+    setup.azimuth *= M_PI / 180;
     setup.latitude *= M_PI / 180;
     setup.longitude *= M_PI / 180;
 
