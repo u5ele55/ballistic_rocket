@@ -1,8 +1,8 @@
 #pragma once
 #include "ISystem.hpp"
 #include "Parameters.hpp"
-#include "../../utils/Function/Function.hpp"
-#include "../../utils/Function/physics/AtmosphereParameters.hpp"
+#include "utils/Function/Function.hpp"
+#include "Function/physics/AtmosphereParameters.hpp"
 
 class BR3DRoundEarth : public ISystem
 {

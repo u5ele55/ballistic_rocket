@@ -1,8 +1,8 @@
 #include "FunctionCreator.hpp"
 
-#include "../utils/Function/interpolation/LinearInterpolatedFunction.hpp"
-#include "../utils/Function/interpolation/LinearInterpolationWithDiscontinuties.hpp"
-#include "../utils/Function/interpolation/CubicSplinesInterpolation.hpp"
+#include "Function/interpolation/LinearInterpolatedFunction.hpp"
+#include "Function/interpolation/LinearInterpolationWithDiscontinuties.hpp"
+#include "Function/interpolation/CubicSplinesInterpolation.hpp"
 
 #include <fstream>
 

@@ -1,6 +1,6 @@
 #pragma once
 #include "IFileInputter.hpp"
-#include "../../ballistic_rocket/system/Parameters.hpp"
+#include "ballistic_rocket/system/Parameters.hpp"
 
 class ParametersInputter : IFileInputter<Parameters>
 {

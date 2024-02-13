@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../utils/Vector.hpp"
+#include "utils/Vector.hpp"
 
 class ISystem
 {

@@ -1,5 +1,5 @@
 #pragma once
-#include "../Function.hpp"
+#include "Function/Function.hpp"
 #include "InterpolatedFunction.hpp"
 
 class ConditionalInterpolation : public Function<double, InterpolatedFunction&> 

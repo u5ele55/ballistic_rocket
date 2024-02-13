@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../system/ISystem.hpp"
+#include "ballistic_rocket/system/ISystem.hpp"
 
 class AbstractSolver {
 public:

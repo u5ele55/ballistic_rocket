@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../utils/Vector.hpp"
-#include "../utils/file_input/ParametersInputter.hpp"
-#include "../ballistic_rocket/modeling/AbstractSolver.hpp"
+#include "Vector.hpp"
+#include "file_input/ParametersInputter.hpp"
+#include "ballistic_rocket/modeling/AbstractSolver.hpp"
 
 class Core
 {

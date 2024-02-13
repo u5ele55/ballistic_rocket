@@ -1,5 +1,5 @@
 #pragma once
-#include "../Function.hpp"
+#include "Function/Function.hpp"
 
 class AirDensityExponentialModel : public Function<double, double>
 {

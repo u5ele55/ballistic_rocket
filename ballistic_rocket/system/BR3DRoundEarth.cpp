@@ -1,11 +1,10 @@
 #include "BR3DRoundEarth.hpp"
-#include "../../global/GlobalScope.hpp"
-#include "../../global/Constants.hpp"
-#include "../../utils/LinAlg.hpp"
+#include "global/GlobalScope.hpp"
+#include "global/Constants.hpp"
+#include "LinAlg.hpp"
 
 #include <cmath>
 
-#include <iostream>
 BR3DRoundEarth::BR3DRoundEarth(Parameters *params, Vector initialCoordinates, Vector initialVelocity)
     : params(params),
     initialState({

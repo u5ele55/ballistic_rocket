@@ -2,7 +2,7 @@
 
 #include "InterpolatedFunction.hpp"
 #include <vector>
-#include "../../Vector.hpp"
+#include "Vector.hpp"
 
 class CubicSplinesInterpolation : public InterpolatedFunction
 {

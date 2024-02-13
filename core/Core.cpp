@@ -1,14 +1,14 @@
 #include "Core.hpp"
 
-#include "../utils/file_input/filenames.hpp"
-#include "../utils/coordinates.hpp"
-#include "../utils/LinAlg.hpp"
+#include "utils/file_input/filenames.hpp"
+#include "utils/coordinates.hpp"
+#include "utils/LinAlg.hpp"
 
-#include "../ballistic_rocket/modeling/RK4Solver.hpp"
-#include "../ballistic_rocket/system/BR3DRoundEarth.hpp"
+#include "ballistic_rocket/modeling/RK4Solver.hpp"
+#include "ballistic_rocket/system/BR3DRoundEarth.hpp"
 
-#include "../global/GlobalScope.hpp"
-#include "../global/Constants.hpp"
+#include "global/GlobalScope.hpp"
+#include "global/Constants.hpp"
 
 #include <cmath>
 #include <iostream>

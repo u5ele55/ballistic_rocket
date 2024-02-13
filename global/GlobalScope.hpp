@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../utils/Function/Function.hpp"
-#include "../utils/Function/physics/AtmosphereParameters.hpp"
+#include "Function/Function.hpp"
+#include "Function/physics/AtmosphereParameters.hpp"
 #include "FunctionCreator.hpp"
-#include "../ballistic_rocket/system/Parameters.hpp"
+#include "ballistic_rocket/system/Parameters.hpp"
 
 class GlobalScope {
 private:
