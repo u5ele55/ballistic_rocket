@@ -39,8 +39,13 @@ double LinAlg::angle(const Vector &a, const Vector &b)
 Vector LinAlg::projectionOnPlane(const Vector &src, const Vector &basis1, const Vector &basis2)
 {
     Vector n = basis1.cross(basis2); // normal vector
-    n = n / n.norm();
 
+    return projectionOnPlane(src, n);
+}
+
+Vector LinAlg::projectionOnPlane(const Vector &src, const Vector &normal)
+{
+    Vector n = normal / normal.norm();
     Vector proj = n * src.dot(n);
 
     return proj;

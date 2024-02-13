@@ -8,6 +8,7 @@ class BR3DRoundEarth : public ISystem
 {
 private:
     Vector initialState;
+    Vector initialCoordinates;
     Parameters *params;
 
     Function<double, double> *power;
@@ -21,7 +22,7 @@ private:
     Function<double, double> *Cx_W;
 
     double endMass;
-    Vector fromStartToNorth;
+    double rotationAboutStartCS;
 public:
     BR3DRoundEarth(Parameters * params, Vector initialCoordinates, Vector initialVelocity);
     void f(Vector &state, double time) const;
