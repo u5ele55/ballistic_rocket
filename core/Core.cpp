@@ -33,6 +33,7 @@ Vector Core::calculateEndpoint()
     Vector velocity = {0, params->setup.velocity, 0};
     velocity = LinAlg::rotateAbout(velocity, {1,0,0}, params->setup.latitude);
     velocity = LinAlg::rotateAbout(velocity, {0,0,1}, params->setup.longitude - M_PI_2);
+    // also need to rotate about coordinate to direct by azimuth in case when velocity isn't colinear with coordinate
 
     model = new BR3DRoundEarth(params, coordinate, velocity); 
     solver = new RK4Solver(model, 1e-2);
@@ -52,7 +53,6 @@ Vector Core::calculateEndpoint()
             std::cout << "Error: " << e.what() << '\n';
             break;
         }
-        // std::cout << time << " " << state << "ok\n" << lastState << '\n';
     }
     file.close();
 
@@ -85,7 +85,7 @@ std::vector<std::pair<double, double>> Core::heights(int points)
         const auto& state = solver->solve(t);
         Vector h = state - LinAlg::projectionOnEllipse(state, Constants::Earth::MAJOR_AXIS,Constants::Earth::MAJOR_AXIS,Constants::Earth::MINOR_AXIS);
         double height = h.norm();
-        double arcLength = LinAlg::angle(state, start) * Constants::Earth::MAJOR_AXIS; // approximation to sphere
+        double arcLength = LinAlg::angle(state, start) * Constants::Earth::MAJOR_AXIS; // sphere model
         result[i] = {arcLength, height};
     }
 
