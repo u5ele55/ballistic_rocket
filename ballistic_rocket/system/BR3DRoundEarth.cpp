@@ -84,11 +84,11 @@ void BR3DRoundEarth::f(Vector &state, double time) const
     }
     else if (time > params->stageEndtime.second) {
         // third stage
+        drag = 0;
     }
     else if (time > params->stageEndtime.first) {
         // second stage
-        auto &fun = (*Cx_2)(height);
-        double Cd = fun(M);
+        double Cd = (*Cx_2)(height)(M);
         drag = 0.5 * atm.density * params->missile.midelArea2 * Cd * v_sqr;
     }
     else {
